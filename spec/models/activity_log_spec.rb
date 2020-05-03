@@ -44,4 +44,63 @@ RSpec.describe ActivityLog, type: :model do
       expect(ActivityLog.by_baby_id(baby.id).count).to eq(2)
     end
   end
+
+  describe '#by_assistant_id' do
+    let!(:assistant) { create(:assistant) }
+    let!(:assistant2) { create(:assistant) }
+    let!(:activity_log) { create(:activity_log, assistant: assistant) }
+    let!(:activity_log2) { create(:activity_log, assistant: assistant) }
+    let!(:activity_log3) { create(:activity_log, assistant: assistant2) }
+
+    it 'Return the activity logs with the provided baby_id' do
+      expect(ActivityLog.by_assistant_id(assistant.id).count).to eq(2)
+    end
+  end
+
+  describe '#status' do
+    let(:activity_log) { create(:activity_log) }
+    let(:activity_log2) { create(:activity_log, stop_time: nil) }
+
+    it 'Should return Termiando if stop time is set' do
+      expect(activity_log.status).to eq('Terminado')
+    end
+
+    it 'Should return En proceso if stop time is not set' do
+      expect(activity_log2.status).to eq('En progreso')
+    end
+  end
+
+  describe '#by_status' do
+    let!(:activity_log) { create(:activity_log) }
+    let!(:activity_log2) { create(:activity_log) }
+    let!(:activity_log3) { create(:activity_log, stop_time: nil) }
+
+    it 'should activity logs with done status' do
+      expect(ActivityLog.by_status(:done).size).to eq(2)
+    end
+
+    it 'should activity logs with in_progress status' do
+      expect(ActivityLog.by_status(:in_progress).size).to eq(1)
+    end
+  end
+
+  describe '#in_progress' do
+    let!(:activity_log) { create(:activity_log) }
+    let!(:activity_log2) { create(:activity_log, stop_time: nil) }
+    let!(:activity_log3) { create(:activity_log, stop_time: nil) }
+
+    it 'should activity logs with in_progress status' do
+      expect(ActivityLog.in_progress.size).to eq(2)
+    end
+  end
+
+  describe '#done' do
+    let!(:activity_log) { create(:activity_log) }
+    let!(:activity_log2) { create(:activity_log) }
+    let!(:activity_log3) { create(:activity_log, stop_time: nil) }
+
+    it 'should activity logs with done status' do
+      expect(ActivityLog.finished.size).to eq(2)
+    end
+  end
 end
