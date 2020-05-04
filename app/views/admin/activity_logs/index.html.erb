@@ -1,0 +1,56 @@
+<%= form_tag(admin_activity_logs_path, method: 'get') do%>
+  <div class="form-row mb-4 mt-4">
+    <div class="col">
+      <%= select_tag(
+            'baby_id',
+            options_for_select(@babies, permitted_params[:baby]),
+            include_blank: 'Seleccionar bebé',
+            class: 'form-control')
+      %>
+    </div>
+    <div class="col">
+      <%= select_tag(
+            'assistant_id',
+            options_for_select(@assistants, permitted_params[:assistant]),
+            include_blank: 'Seleccionar asistente',
+            class: 'form-control')
+      %>
+    </div>
+    <div class="col">
+      <%= select_tag(
+            'status',
+            options_for_select(@status, permitted_params[:status]),
+            include_blank: 'Todos',
+            class: 'form-control')
+      %>
+    </div>
+    <div class="col">
+      <button type="submit" class="btn btn-primary">Filtrar</button>
+    </div>
+  </div>
+<% end %>
+
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th scope="col">Bebé</th>
+    <th scope="col">Asistente</th>
+    <th scope="col">Actividad</th>
+    <th scope="col">Inicio</th>
+    <th scope="col">Estatus</th>
+    <th scope="col">Duración</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @activity_logs.each do |activity_log| %>
+    <tr>
+      <td><%= activity_log.baby_name %></td>
+      <td><%= activity_log.assistant_name %></td>
+      <td><%= activity_log.activity_name %></td>
+      <td><%= date_in_monterrey_timezone(activity_log.start_time) %></td>
+      <td><%= activity_log.status %></td>
+      <td><%= duration_or_empty(activity_log.duration) %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
