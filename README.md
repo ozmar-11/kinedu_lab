@@ -1,24 +1,25 @@
 # README
+[![ozmar-11](https://circleci.com/gh/ozmar-11/kinedu_lab.svg?style=svg)](https://app.circleci.com/pipelines/github/ozmar-11/kinedu_lab)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a simple Rails 6 application and the only external dependecy you need is postgresql to run this project 
 
-Things you may want to cover:
+## Ruby version
+2.6.5
 
-* Ruby version
+## Install dependencies
 
-* System dependencies
+### Install ruby dependencies
+Run `bundle install`
 
-* Configuration
+### Install JS dependencies
+Run `yarn install`
 
-* Database creation
+## Database creation
+Run `bundle exec rails db:create`
+Run `bundle exec rails db:migrate`
 
-* Database initialization
+## Database initialization
+Run `bundle exec rails db:seed`
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## How to run the test suite
+Run `bundle exec rspec spec` 
